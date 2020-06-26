@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+    <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>offers</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button routerLink="/places/tabs/offers/new">
+        <ion-icon name="add" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-text-padding">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
+        <ion-card-header>
+          <ion-card-title>{{offers[0].title}}</ion-card-title>
+          <ion-card-subtitle>{{offers[0].price | currency}} / Night</ion-card-subtitle>
+        </ion-card-header>
+        <ion-img [src]="offers[0].imageUrl"></ion-img>
+        <ion-card-content>
+          <p>{{offers[0].description}}</p>
+          <div class="ion-text-right">
+          <ion-button fill="clear" color="primary" [routerLink]="['/','places','tabs','offers',offers[0].id]">
+            More
+          </ion-button>
+        </div>
+      </ion-card-content>
+  </ion-col>
+</ion-row>
+<ion-row>
+  <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
+  <ion-list>
+    <ion-item-sliding *ngFor="let places of offers.slice(1)" #slidingItem>
+      <!-- <ion-item >
+        <ion-thumbnail slot="start">
+          <ion-img [src]="places.imageUrl"></ion-img>
+        </ion-thumbnail>
+        <ion-label>
+          <h2>{{places.title}}</h2>
+          <p>{{places.description}}</p>
+        </ion-label>
+      </ion-item> -->
+      <app-offer-item [offer]="places"></app-offer-item>
+      <ion-item-options> 
+        <ion-item-option color="secondary" (click)="onEdit(places.id,slidingItem)">
+          <!-- Edit Offer -->
+          <ion-icon name="create" slot="top"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+    
+  </ion-list>
+
+  </ion-col>
+</ion-row>
+</ion-grid>
+
+</ion-content>
