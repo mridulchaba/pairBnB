@@ -19,36 +19,36 @@ interface PlaceData {
 })
 export class PlacesService {
   private _places = new BehaviorSubject<Place[]>([
-    new Place(
-      "p1",
-      "Taj Mahal",
-      "Agra vala mahal",
-      "https://upload.wikimedia.org/wikipedia/commons/1/1d/Taj_Mahal_%28Edited%29.jpeg",
-      10000000,
-      new Date("2020-06-28"),
-      new Date("2020-07-09"),
-      "xyz"
-    ),
-    new Place(
-      "p2",
-      "Sikri Fort",
-      "Sikri vala mahal",
-      "https://www.tutorialspoint.com/fatehpur_sikri_fort/images/fateh.jpg",
-      500000,
-      new Date("2020-06-28"),
-      new Date("2020-07-09"),
-      "abc"
-    ),
-    new Place(
-      "p3",
-      "Jama Masjid",
-      "Jama vala Masjid",
-      "https://upload.wikimedia.org/wikipedia/commons/a/a4/Jama_Masjid_-_In_the_Noon.jpg",
-      9000000,
-      new Date("2020-06-28"),
-      new Date("2020-07-09"),
-      "abc"
-    ),
+    // new Place(
+    //   "p1",
+    //   "Taj Mahal",
+    //   "Agra vala mahal",
+    //   "https://upload.wikimedia.org/wikipedia/commons/1/1d/Taj_Mahal_%28Edited%29.jpeg",
+    //   10000000,
+    //   new Date("2020-06-28"),
+    //   new Date("2020-07-09"),
+    //   "xyz"
+    // ),
+    // new Place(
+    //   "p2",
+    //   "Sikri Fort",
+    //   "Sikri vala mahal",
+    //   "https://www.tutorialspoint.com/fatehpur_sikri_fort/images/fateh.jpg",
+    //   500000,
+    //   new Date("2020-06-28"),
+    //   new Date("2020-07-09"),
+    //   "abc"
+    // ),
+    // new Place(
+    //   "p3",
+    //   "Jama Masjid",
+    //   "Jama vala Masjid",
+    //   "https://upload.wikimedia.org/wikipedia/commons/a/a4/Jama_Masjid_-_In_the_Noon.jpg",
+    //   9000000,
+    //   new Date("2020-06-28"),
+    //   new Date("2020-07-09"),
+    //   "abc"
+    // ),
   ]);
 
   get places() {
