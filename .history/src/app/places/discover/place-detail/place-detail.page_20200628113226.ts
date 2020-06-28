@@ -7,7 +7,6 @@ import {
   ModalController,
   ActionSheetController,
   LoadingController,
-  AlertController,
 } from "@ionic/angular";
 import { PlacesService } from "../../places.service";
 import { Place } from "../../place.model";
@@ -32,9 +31,7 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
     private actionSheetCtrl: ActionSheetController,
     private bookingSer: BookingService,
     private loadCtrl: LoadingController,
-    private authSer: AuthService,
-    private alertCtrl: AlertController,
-    private router: Router
+    private authSer: AuthService
   ) {}
 
   ngOnInit() {
@@ -46,29 +43,11 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
       this.isLoading = true;
       this.placeSub = this.placesService
         .getPlace(paramMap.get("placeId"))
-        .subscribe(
-          (place) => {
-            this.place = place;
-            // this.isBookable = place.userId !== this.authSer.userId;
-            this.isLoading = false;
-          },
-          (error) => {
-            this.alertCtrl
-              .create({
-                header: "An error occured!",
-                message: "Could not load place.",
-                buttons: [
-                  {
-                    text: "Okay",
-                    handler: () => {
-                      this.router.navigate(["/places/tabs/discover"]);
-                    },
-                  },
-                ],
-              })
-              .then((alertEl) => alertEl.present());
-          }
-        );
+        .subscribe((place) => {
+          this.place = place;
+          // this.isBookable = place.userId !== this.authSer.userId;
+          this.isLoading = false;
+        });
     });
   }
   onBookPlace() {

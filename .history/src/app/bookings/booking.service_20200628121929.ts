@@ -83,7 +83,6 @@ export class BookingService {
         switchMap(() => {
           return this.bookings;
         }),
-        take(1),
         tap((bookings) => {
           this._bookings.next(bookings.filter((b) => b.id !== bookingId));
         })

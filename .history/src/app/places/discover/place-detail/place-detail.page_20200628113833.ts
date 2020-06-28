@@ -53,20 +53,18 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
             this.isLoading = false;
           },
           (error) => {
-            this.alertCtrl
-              .create({
-                header: "An error occured!",
-                message: "Could not load place.",
-                buttons: [
-                  {
-                    text: "Okay",
-                    handler: () => {
-                      this.router.navigate(["/places/tabs/discover"]);
-                    },
+            this.alertCtrl.create({
+              header: "An error occured!",
+              message: "Could not load place.",
+              buttons: [
+                {
+                  text: "Okay",
+                  handler: () => {
+                    this.router.navigate(["/places/tabs/discover"]);
                   },
-                ],
-              })
-              .then((alertEl) => alertEl.present());
+                },
+              ],
+            });
           }
         );
     });

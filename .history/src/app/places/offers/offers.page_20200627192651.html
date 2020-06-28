@@ -41,8 +41,7 @@
       <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
         <ion-spinner *ngIf="isLoading"></ion-spinner>
         <p *ngIf="!isLoading && offers.length <= 0">
-          No offers found! Please add an offer using the + button given on the
-          top right corner
+          No offers found! Please add on offer
         </p>
         <ion-list *ngIf="!isLoading && offers.length > 0">
           <ion-item-sliding *ngFor="let places of offers.slice(1)" #slidingItem>

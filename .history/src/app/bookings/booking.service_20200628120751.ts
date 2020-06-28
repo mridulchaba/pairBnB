@@ -5,7 +5,9 @@ import { Booking } from "./booking.model";
 import { BehaviorSubject } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { switchMap } from "rxjs/operators";
-
+@Injectable({
+  providedIn: "root",
+})
 interface BookingData {
   bookedFrom: string;
   bookedTo: string;
@@ -17,9 +19,6 @@ interface BookingData {
   placeTitle: string;
   userId: string;
 }
-@Injectable({
-  providedIn: "root",
-})
 export class BookingService {
   private _bookings = new BehaviorSubject<Booking[]>([
     // {
@@ -77,29 +76,18 @@ export class BookingService {
       );
   }
   cancelBooking(bookingId: string) {
-    return this.http
-      .delete(`https://pairbnb-9ffd7.firebaseio.com/bookings/${bookingId}.json`)
-      .pipe(
-        switchMap(() => {
-          return this.bookings;
-        }),
-        take(1),
-        tap((bookings) => {
-          this._bookings.next(bookings.filter((b) => b.id !== bookingId));
-        })
-      );
-    // return this.bookings.pipe(
-    //   take(1),
-    //   delay(1000),
-    //   tap((bookings) => {
-    //     this._bookings.next(bookings.filter((b) => b.id != bookingId));
-    //   })
-    // );
+    return this.bookings.pipe(
+      take(1),
+      delay(1000),
+      tap((bookings) => {
+        this._bookings.next(bookings.filter((b) => b.id != bookingId));
+      })
+    );
   }
   fetchBookings() {
     return this.http
       .get<{ [key: string]: BookingData }>(
-        `https://pairbnb-9ffd7.firebaseio.com/bookings.json?orderBy="userId"&&equalTo="${this.authSer.userId}"`
+        `https://pairbnb-9ffd7.firebaseio.com/bookings.json?orderBy='userId"&&equalTo="${this.authSer.userId}"`
       )
       .pipe(
         map((bookingData) => {

@@ -1,7 +1,7 @@
 import { AuthService } from "./../auth/auth.service";
 import { Injectable } from "@angular/core";
 import { Place } from "./place.model";
-import { BehaviorSubject, of } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 import { take, map, tap, delay, switchMap } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
 
@@ -89,25 +89,12 @@ export class PlacesService {
       );
   }
   getPlace(id: string) {
-    // console.log(id);
-    return this.http
-      .get<PlaceData>(
-        `https://pairbnb-9ffd7.firebaseio.com/offered-places/${id}.json`
-      )
-      .pipe(
-        map((placeData) => {
-          return new Place(
-            id,
-            placeData.title,
-            placeData.description,
-            placeData.imageUrl,
-            placeData.price,
-            new Date(placeData.availableFrom),
-            new Date(placeData.availableTo),
-            placeData.userId
-          );
-        })
-      );
+    return this.places.pipe(
+      take(1),
+      map((places) => {
+        return { ...places.find((p) => p.id === id) };
+      })
+    );
   }
   addPlace(
     title: string,
@@ -157,21 +144,14 @@ export class PlacesService {
   }
 
   updatePlace(placeId: string, title: string, desc: string) {
-    let updatedPlaces: Place[];
+    let updatedPlace: Place[];
     return this.places.pipe(
       take(1),
       switchMap((places) => {
-        if (!places || places.length <= 0) {
-          return this.fetchPlaces();
-        } else {
-          return of(places);
-        }
-      }),
-      switchMap((places) => {
         const updatedPlaceIndex = places.findIndex((pl) => pl.id === placeId);
-        updatedPlaces = [...places];
-        const oldPlace = updatedPlaces[updatedPlaceIndex];
-        updatedPlaces[updatedPlaceIndex] = new Place(
+        updatedPlace = [...places];
+        const oldPlace = updatedPlace[updatedPlaceIndex];
+        updatedPlace[updatedPlaceIndex] = new Place(
           oldPlace.id,
           title,
           desc,
@@ -181,14 +161,13 @@ export class PlacesService {
           oldPlace.availableTo,
           oldPlace.userId
         );
-        // console.log(placeId);
         return this.http.put(
-          `https://pairbnb-9ffd7.firebaseio.com/offered-places/${placeId}.json`,
-          { ...updatedPlaces[updatedPlaceIndex], id: null }
+          "https://pairbnb-9ffd7.firebaseio.com/offered-places/$(placeId).json",
+          { ...updatedPlace[updatedPlaceIndex], id: null }
         );
       }),
       tap(() => {
-        this._places.next(updatedPlaces);
+        this._places.next(updatedPlace);
       })
     );
   }

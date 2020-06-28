@@ -161,13 +161,16 @@ export class PlacesService {
     return this.places.pipe(
       take(1),
       switchMap((places) => {
-        if (!places || places.length <= 0) {
+        if (!places || places.length <= 0)
+        {
           return this.fetchPlaces();
-        } else {
+        }
+        else{
           return of(places);
         }
+        
       }),
-      switchMap((places) => {
+      switchMap(places => {
         const updatedPlaceIndex = places.findIndex((pl) => pl.id === placeId);
         updatedPlaces = [...places];
         const oldPlace = updatedPlaces[updatedPlaceIndex];
@@ -186,7 +189,7 @@ export class PlacesService {
           `https://pairbnb-9ffd7.firebaseio.com/offered-places/${placeId}.json`,
           { ...updatedPlaces[updatedPlaceIndex], id: null }
         );
-      }),
+      })
       tap(() => {
         this._places.next(updatedPlaces);
       })
